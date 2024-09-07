@@ -1,1 +1,1 @@
-export { getErrorMessage } from './common.js';
+export { getErrorMessage, generateRandomValue, getRandomItem } from './common.js';
