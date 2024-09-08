@@ -17,7 +17,7 @@ export class GuitarProductGenerator {
           .subtract(generateRandomValue(WEEK_DAY.FIRST, WEEK_DAY.LAST), 'day')
           .toISOString(),
         photo: `catalog-product-${generateRandomValue(INDEX.FIRST, INDEX.LAST)}.png`,
-        type: getRandomItem<GuitarType>(Object.values(GuitarType)),
+        guitarType: getRandomItem<GuitarType>(Object.values(GuitarType)),
         article: `A${generateRandomValue(ARTICLE.START, ARTICLE.END)}`,
         stringsCount: getRandomItem<StringsCountType>(Object.values(StringsCountType)),
         price: generateRandomValue(PRICE.MIN, PRICE.MAX)

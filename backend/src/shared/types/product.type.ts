@@ -6,7 +6,7 @@ export type ProductType = {
     description: string,
     publishDate: string,
     photo: string,
-    type: GuitarType,
+    guitarType: GuitarType,
     article: string,
     stringsCount: StringsCountType,
     price: number
