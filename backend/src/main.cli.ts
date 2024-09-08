@@ -1,4 +1,4 @@
-#!node
+#!/bin/node
 
 import { CLIApplication, GenerateCommand, HelpCommand } from './cli/index.js';
 

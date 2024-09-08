@@ -1,6 +1,6 @@
 const enum PRICE {
   MIN = 100,
-  MAX = 1000
+  MAX = 1000000
 }
 
 const enum WEEK_DAY {
