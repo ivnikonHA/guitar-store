@@ -9,8 +9,13 @@ const enum WEEK_DAY {
 }
 
 const enum INDEX {
-  FIRST = 1,
-  LAST = 100
+  FIRST = 0,
+  LAST = 8
 }
 
-export { INDEX, PRICE, WEEK_DAY };
+const enum ARTICLE {
+  START = 10000,
+  END = 99999
+}
+
+export { ARTICLE, INDEX, PRICE, WEEK_DAY };

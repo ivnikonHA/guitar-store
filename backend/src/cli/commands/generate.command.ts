@@ -1,18 +1,19 @@
 //import got from 'got';
 
 import { getErrorMessage } from '../../shared/helpers/index.js';
-//import { TSVFileWriter } from '../../shared/libs/file-writer/tsv-file-writer.js';
-//import { TSVOfferGenerator } from '../../shared/libs/offer-generator/tsv-offer-generator.js';
-//import { MockServerDataType } from '../../shared/types/mock-server-data.type.js';
 import { Command } from './command.interface.js';
 import { MongoDatabaseClient } from '../../shared/libs/database-client/index.js';
 import { PinoLogger } from '../../shared/libs/logger/pino.logger.js';
 import { readFile } from 'node:fs/promises';
 import { MockDataType } from '../../shared/types/index.js';
+import { GuitarProductGenerator } from '../../shared/libs/offer-generator/product-generator.js';
+import { Logger } from '../../shared/libs/logger/logger.interface.js';
 
 export class GenerateCommand implements Command {
-  private logger;
-  private databaseClient;
+  private logger: Logger;
+  private databaseClient: MongoDatabaseClient;
+  private productGenerator: GuitarProductGenerator;
+
   constructor()
   {
     this.logger = new PinoLogger();
@@ -29,17 +30,6 @@ export class GenerateCommand implements Command {
     }
   }
 
-  // private async write(filepath: string, offerCount: number) {
-  //   const tsvOfferGenerator = new TSVOfferGenerator(this.initialData);
-  //   const tsvFileWriter = new TSVFileWriter(filepath);
-
-  //   const queue = [];
-  //   for(let i = 0; i < offerCount; i++) {
-  //     queue.push(tsvFileWriter.write(tsvOfferGenerator.generate()));
-  //   }
-  //   Promise.all(queue);
-  // }
-
   public getName(): string {
     return '--generate';
   }
@@ -52,6 +42,7 @@ export class GenerateCommand implements Command {
     const offerCount = Number.parseInt(count, 10);
 
     this.initialData = await this.load(filepath);
+    this.productGenerator = new GuitarProductGenerator(this.initialData);
     try {
       await this.databaseClient.connect(uri);
       this.logger.info(`File ${filepath} with ${offerCount} records by ${uri} was created`);
@@ -59,7 +50,7 @@ export class GenerateCommand implements Command {
       this.logger.error('Can\'t generate data', new Error(getErrorMessage(error)));
     }
     for(let i = 0; i < offerCount; i++) {
-
+      console.log(this.productGenerator.generate());
     }
   }
 }
