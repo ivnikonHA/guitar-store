@@ -4,16 +4,19 @@ import * as Mongoose from 'mongoose';
 
 import { DatabaseClient } from './index.js';
 import { Logger } from '../logger/logger.interface.js';
+import { inject, injectable } from 'inversify';
+import { Component } from '../../types/component.enum.js';
 
 const RETRY_COUNT = 5;
 const RETRY_TIMEOUT = 1000;
 
+@injectable()
 export class MongoDatabaseClient implements DatabaseClient {
   private mongoose: typeof Mongoose;
   private isConnected: boolean;
 
   constructor(
-    private readonly logger: Logger
+    @inject(Component.Logger) private readonly logger: Logger
   ) {
     this.isConnected = false;
   }
