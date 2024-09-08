@@ -1,0 +1,223 @@
+openapi: 3.0.0
+info:
+  title: API server for Guitag Shop grade project.
+  version: 0.0.1
+  description: ""
+tags:
+  - name: products
+    description: Действия с товарами
+  - name: users
+    description: Действия с пользователями
+paths:
+  /products:
+    get:
+      tags: [ 'products' ]
+      description: Получить список товаров
+      parameters:
+        - in: query
+          name: count
+          required: false
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/product"
+    post:
+      tags:
+        - products
+      description: Создание нового товара
+      requestBody:
+        description: Данные для создания нового товара
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/product"
+      responses:
+        '201':
+          description: Товар создан
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/product"
+        '400':
+          description: Ошибка создания товара
+  /products/{productId}:
+    get:
+      tags:
+        - products
+      description: Детальная информация по товару
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Детальная информация по товару
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/product"
+        '404':
+          description: Предложение не найдено
+    patch:
+      tags:
+        - products
+      description: Обновление информации по товару
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Товар обновлен
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/product"
+        '401':
+          description: Пользователь не авторизован
+        '404':
+          description: Товар не найден
+    delete:
+      tags:
+        - products
+      description: Удаление товара
+      parameters:
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Товар удален
+        '401':
+          description: Пользователь не авторизован
+        '404':
+          description: Товар не найден
+  /users/login:
+    get:
+      tags:
+        - "users"
+      description: Проверка состояния пользователя
+      responses:
+        '200':
+          description: Пользователь авторизован
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/user"
+        '401':
+          description: Пользователь не авторизован
+    post:
+      tags:
+        - "users"
+      description: Вход в закрытую часть приложения
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/loginUser"
+      responses:
+        '200':
+          description: Пользователь авторизован
+        '401':
+          description: Не правильный пароль
+        '404':
+          description: Пользователь не найден
+  /users/register:
+    post:
+      tags:
+        - "users"
+      description: Регистрация пользователя
+      requestBody:
+        required: true
+        description: Данные для регистрации пользователя
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/userWithPassword"
+      responses:
+        '201':
+          description: Пользователь зарегистрирован
+        '409':
+          description: Почта уже существует
+
+components:
+  schemas:
+    product:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Super offer
+        publishDate:
+          type: string
+          example: 2024-05-03T09:42:15.638Z
+        photo:
+          type: string
+          example: preview.jpg
+        type:
+          type: string
+          enum:
+            - электро
+            - аккустика
+            - укулеле
+          example: укулеле
+        article:
+          type: string
+          example: A123456
+        stringsCount:
+          type: string
+          enum:
+            - 4
+            - 6
+            - 7
+            - 12
+          example: 6
+        price:
+          type: number
+          minimum: 100
+          maximum: 1000000
+          example: 12345
+    loginUser:
+      type: object
+      properties:
+        email:
+          type: string
+          example: keks@yandex.ru
+        password:
+          type: string
+          example: 12345
+    user:
+      type: object
+      properties:
+        name:
+          type: string
+          example: keks
+        email:
+          type: string
+          example: keks@yandex.ru
+
+    userWithPassword:
+      type: object
+      properties:
+        name:
+          type: string
+          example: keks
+        email:
+          type: string
+          example: keks@yandex.ru
+        password:
+          type: string
+          example: 12345
