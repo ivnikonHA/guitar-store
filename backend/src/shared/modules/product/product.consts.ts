@@ -17,3 +17,8 @@ export const enum ProductPrice {
   Min = 100,
   Max = 1000000
 };
+
+export const enum SortType {
+  Up = 1,
+  Down = -1
+};

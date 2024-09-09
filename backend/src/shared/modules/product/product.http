@@ -1,0 +1,47 @@
+# Предложения
+## Получить список предложений
+GET http://localhost:5000/products HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Iml2bmlrb25AbWFpbC5ydSIsInVzZXJOYW1lIjoiaXZuaWtvbiIsImlkIjoiNjY2MDk2ZGY5NTVhMDlmNjU5NmJiNGQ3IiwiaWF0IjoxNzE4NTMyMDg1LCJleHAiOjE3MTg3MDQ4ODV9.x_3xu0XMY7eYgGLBkLMYwTOygvywel5J2Me3L7Nzyf4
+
+###
+
+## Создать предложение
+POST  http://localhost:5000/products HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "TEST123456",
+  "description": "Example description 123456789",
+  "photo": "preview.jpg",
+  "guitarType": "укулеле",
+  "price": 12345,
+  "stringsCount": "4",
+  "publishDate": "2024-09-06T07:43:23.357Z",
+  "article": "A12345677"
+}
+
+###
+
+## Получить детали предложения
+GET http://localhost:5000/products/66dea71bdda2d57fe5991c38 HTTP/1.1
+Content-Type: application/json
+
+###
+
+## Обновить предложение
+PATCH   http://localhost:5000/products/66dea71bdda2d57fe5991c38 HTTP/1.1
+Content-Type: application/json
+
+{
+  "price": 1345,
+  "guitarType": "электр"
+}
+
+###
+
+## Удалить предложение
+DELETE http://localhost:5000/products/66dea71bdda2d57fe5991c3a HTTP/1.1
+Content-Type: application/json
+
+###

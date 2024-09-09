@@ -19,7 +19,7 @@ export class UpdateProductDto {
 
   @IsOptional()
   @IsDateString({}, {message: ProductValidationMessage.publishDate.invalidFormat})
-  public publishDate?: Date;
+  public publishDate?: string;
 
   @IsOptional()
   @IsString({message: ProductValidationMessage.photo.invalidFormat})

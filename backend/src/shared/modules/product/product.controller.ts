@@ -20,7 +20,7 @@ export class ProductController extends BaseController {
     super(logger);
 
     this.logger.info('Register routes for OfferController');
-    //this.addRoute({path: '/', method: HttpMethod.Get, handler: this.index});
+    this.addRoute({path: '/', method: HttpMethod.Get, handler: this.index});
     this.addRoute({
       path: '/',
       method: HttpMethod.Post,
@@ -60,6 +60,12 @@ export class ProductController extends BaseController {
         new DocumentExistsMiddleware(this.productService, 'Product', 'id')
       ]
     });
+  }
+
+  public async index(_req: Request, res: Response): Promise<void> {
+    const products = await this.productService.find();
+
+    this.ok(res, fillDTO(ProductRdo, products));
   }
 
   public async create({ body }: Request<unknown, unknown, CreateProductDto>, res: Response): Promise<void> {

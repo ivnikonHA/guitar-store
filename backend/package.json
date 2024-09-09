@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "npm run ts ./src/main.rest.ts | pino-pretty --colorize --translateTime SYS:standard",
+    "start:dev": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint src/ --ext .ts",
     "compile": "tsc -p tsconfig.json",
@@ -43,6 +44,7 @@
     "@typescript-eslint/parser": "8.4.0",
     "eslint": "9.10.0",
     "eslint-plugin-simple-import-sort": "12.1.1",
+    "nodemon": "3.1.4",
     "rimraf": "6.0.1",
     "ts-node": "10.9.2",
     "tslib": "2.7.0",

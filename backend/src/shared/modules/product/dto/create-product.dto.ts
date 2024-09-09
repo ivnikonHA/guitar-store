@@ -16,7 +16,7 @@ export class CreateProductDto {
   public description: string;
 
   @IsDateString({}, {message: ProductValidationMessage.publishDate.invalidFormat})
-  public publishDate: Date;
+  public publishDate: string;
 
   @IsString({message: ProductValidationMessage.photo.invalidFormat})
   public photo: string;

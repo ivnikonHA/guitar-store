@@ -60,7 +60,7 @@ export const configRestSchema = convict<RestSchema>({
   DB_NAME: {
     doc: 'Database name',
     format: String,
-    env: 'MONGO_NAME',
-    default: 'six-cities'
+    env: 'MONGO_DB',
+    default: 'guitar-shop'
   }
 });
