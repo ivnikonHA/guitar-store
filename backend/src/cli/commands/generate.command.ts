@@ -6,17 +6,21 @@ import { MongoDatabaseClient } from '../../shared/libs/database-client/index.js'
 import { Logger, PinoLogger } from '../../shared/libs/logger/index.js';
 import { MockDataType } from '../../shared/types/index.js';
 import { GuitarProductGenerator } from '../../shared/libs/product-generator/index.js';
+import { ProductService } from '../../shared/modules/product/product.service.js';
+import { ProductModel } from '../../shared/modules/product/product.entity.js';
 
 export class GenerateCommand implements Command {
   private logger: Logger;
   private databaseClient: MongoDatabaseClient;
   private productGenerator: GuitarProductGenerator;
   private initialData: MockDataType;
+  private productService: ProductService;
 
   constructor()
   {
     this.logger = new PinoLogger();
     this.databaseClient = new MongoDatabaseClient(this.logger);
+    this.productService = new ProductService(this.logger, ProductModel);
   }
 
   private async load(filepath: string) {
@@ -49,7 +53,9 @@ export class GenerateCommand implements Command {
     }
 
     for(let i = 0; i < offerCount; i++) {
-      console.log(this.productGenerator.generate());
+      const product = this.productGenerator.generate();
+      const result = await this.productService.create(product);
+      console.log(result);
     }
 
     await this.databaseClient.disconnect();

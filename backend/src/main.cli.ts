@@ -1,4 +1,5 @@
 #!/bin/node
+import 'reflect-metadata';
 
 import { CLIApplication, GenerateCommand, HelpCommand } from './cli/index.js';
 
