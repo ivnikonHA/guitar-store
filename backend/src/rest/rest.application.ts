@@ -1,5 +1,6 @@
 import { inject, injectable } from 'inversify';
 import express, { Express } from 'express';
+import cors from 'cors';
 
 import { Component } from '../shared/types/index.js';
 import { Logger } from '../shared/libs/logger/index.js';
@@ -7,6 +8,8 @@ import { Config, RestSchema } from '../shared/libs/config/index.js';
 import { DatabaseClient } from '../shared/libs/database-client/index.js';
 import { getMongoURI } from '../shared/helpers/index.js';
 import { Controller, ExceptionFilter } from '../shared/libs/rest/index.js';
+import { ParseTokenMiddleware } from '../shared/libs/rest/middleware/parse-token.middleware.js';
+import { AuthExceptionFilter } from '../shared/modules/auth/auth-exception-filter.js';
 
 @injectable()
 export class RestApplication {
@@ -17,7 +20,8 @@ export class RestApplication {
     @inject(Component.DatabaseClient) private readonly databaseClient: DatabaseClient,
     @inject(Component.ProductController) private readonly productController: Controller,
     @inject(Component.UserController) private readonly userController: Controller,
-    @inject(Component.ExceptionFilter) private readonly appExceptionFilter: ExceptionFilter
+    @inject(Component.ExceptionFilter) private readonly appExceptionFilter: ExceptionFilter,
+    @inject(Component.AuthExceptionFilter) private readonly authExceptionFilter: AuthExceptionFilter
   ) {
     this.server = express();
   }
@@ -35,8 +39,11 @@ export class RestApplication {
   }
 
   private async initMiddleware() {
+    const authenticateMiddleware = new ParseTokenMiddleware(this.config.get('JWT_SECRET'));
     this.server.use(express.json());
     this.server.use(express.urlencoded({extended: false}));
+    this.server.use(authenticateMiddleware.execute.bind(authenticateMiddleware));
+    this.server.use(cors());
   }
 
   private async initControllers() {
@@ -45,6 +52,7 @@ export class RestApplication {
   }
 
   private async initExceptionFilters() {
+    this.server.use(this.authExceptionFilter.catch.bind(this.authExceptionFilter));
     this.server.use(this.appExceptionFilter.catch.bind(this.appExceptionFilter));
   }
 
