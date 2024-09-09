@@ -4,18 +4,21 @@ import { Request, Response } from 'express';
 import { CreateProductDto } from './dto/create-product.dto.js';
 import { ProductRdo } from './rdo/product.rdo.js';
 import { ProductService } from './product.service.js';
-import { BaseController, HttpMethod, ParamProductId, ValidateDtoMiddleware, ValidateObjectIdMiddleware } from '../../libs/rest/index.js';
+import { BaseController, HttpMethod, ParamProductId, UploadFileMiddleware, ValidateDtoMiddleware, ValidateObjectIdMiddleware } from '../../libs/rest/index.js';
 import { Component } from '../../types/index.js';
 import { Logger } from '../../libs/logger/index.js';
 import { fillDTO } from '../../helpers/index.js';
 import { DocumentExistsMiddleware } from '../../libs/rest/middleware/document-exists.middleware.js';
 import { UpdateProductDto } from './dto/update-product.dto.js';
+import { Config } from '../../libs/config/config.interface.js';
+import { RestSchema } from '../../libs/config/rest.schema.js';
 
 @injectable()
 export class ProductController extends BaseController {
   constructor(
     @inject(Component.Logger) protected readonly logger: Logger,
-    @inject(Component.ProductService) private readonly productService: ProductService
+    @inject(Component.ProductService) private readonly productService: ProductService,
+    @inject(Component.Config) private readonly configService: Config<RestSchema>
   ) {
     super(logger);
 
@@ -60,6 +63,15 @@ export class ProductController extends BaseController {
         new DocumentExistsMiddleware(this.productService, 'Product', 'id')
       ]
     });
+    this.addRoute({
+      path: '/:productId/photo',
+      method: HttpMethod.Post,
+      handler: this.uploadPhoto,
+      middlewares: [
+        new ValidateObjectIdMiddleware('productId'),
+        new UploadFileMiddleware(this.configService.get('UPLOAD_DIRECTORY'), 'photo'),
+      ]
+    });
   }
 
   public async index(_req: Request, res: Response): Promise<void> {
@@ -90,5 +102,11 @@ export class ProductController extends BaseController {
     const result = await this.productService.deleteById(params.id);
 
     this.noContent(res, result);
+  }
+
+  public async uploadPhoto(req: Request, res: Response) {
+    this.created(res, {
+      filepath: req.file?.path
+    });
   }
 }
