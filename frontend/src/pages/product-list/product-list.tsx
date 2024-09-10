@@ -1,18 +1,15 @@
 import { Helmet } from 'react-helmet-async'
 import CatalogItem from '../../components/catalog-item/catalog-item'
 import Filter from '../../components/filter/filter'
-import Footer from '../../components/footer/footer'
 import PaginationList from '../../components/pagination-list/pagination-list'
 import Sort from '../../components/sort/sort'
-import Header from '../../components/header/header'
 
 function ProductList(): JSX.Element {
   return (
     <>
     <Helmet>
-      <title>Guitar Shop</title>
+      <title>Guitar Shop - Каталог</title>
     </Helmet>
-    <Header />
     <main className="page-content">
       <section className="product-list">
         <div className="container">
@@ -41,7 +38,6 @@ function ProductList(): JSX.Element {
         </div>
       </section>
     </main>
-    <Footer />
     </>
   )
 }

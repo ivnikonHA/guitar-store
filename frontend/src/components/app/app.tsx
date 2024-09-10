@@ -1,28 +1,50 @@
-import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import Error404 from '../../pages/error-404/error-404';
-//import Footer from '../footer/footer';
-//import Header from '../header/header';
-//import history from '../../history';
 import ProductList from '../../pages/product-list/product-list';
 import { AppRoute } from '../../consts';
 import { HelmetProvider } from 'react-helmet-async';
+import Layout from '../layout/layout';
+import Login from '../../pages/login/login';
+import Register from '../../pages/register/register';
+import AddProduct from '../../pages/add-product/add-product';
+import EditProduct from '../../pages/edit-product/edit-product';
+import Product from '../../pages/product/product';
 
 function App(): JSX.Element {
-  const router = createBrowserRouter(
-    createRoutesFromElements(
-      <>
-        <Route
-          path={AppRoute.Root}
-          element={<ProductList />}
-        />
-        <Route path='*' element={<Error404 />} />
-      </>
-    )
-  )
   return (
     <HelmetProvider>
-      <RouterProvider router={router} />
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Layout />}>
+            <Route
+              path={AppRoute.Root}
+              element={<Login />}
+            />
+            <Route
+              path={AppRoute.ProductList}
+              element={<ProductList />}
+            />
+            <Route
+              path={AppRoute.ProductId}
+              element={<Product />}
+            />
+            <Route
+              path={AppRoute.Register}
+              element={<Register />}
+            />
+            <Route
+              path={AppRoute.AddProduct}
+              element={<AddProduct />}
+            />
+            <Route
+              path={AppRoute.EditProduct}
+              element={<EditProduct />}
+            />
+            <Route path='*' element={<Error404 />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </HelmetProvider>
   )
 }
