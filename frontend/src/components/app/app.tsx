@@ -10,6 +10,7 @@ import Register from '../../pages/register/register';
 import AddProduct from '../../pages/add-product/add-product';
 import EditProduct from '../../pages/edit-product/edit-product';
 import Product from '../../pages/product/product';
+import PublicRoute from '../public-route/public-route';
 
 function App(): JSX.Element {
   return (
@@ -19,7 +20,11 @@ function App(): JSX.Element {
           <Route path='/' element={<Layout />}>
             <Route
               path={AppRoute.Root}
-              element={<Login />}
+              element={
+                <PublicRoute>
+                  <Login />
+                </PublicRoute>
+              }
             />
             <Route
               path={AppRoute.ProductList}

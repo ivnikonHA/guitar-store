@@ -1,16 +1,18 @@
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { FormEvent, ReactEventHandler, useState } from 'react';
-import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+//import { toast } from 'react-toastify';
 
 import { AppRoute } from '../../consts';
 import { AuthData } from '../../types/auth-data';
-import { useDispatch } from 'react-redux';
+import { loginAction } from '../../store/api-actions';
 
 type ChangeHandler = ReactEventHandler<HTMLInputElement>;
 
 function Login(): JSX.Element {
   const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -26,13 +28,8 @@ function Login(): JSX.Element {
       login: formData.email,
       password: formData.password
     };
-    toast.promise(
-      dispatch(loginAction(authData)).unwrap(),
-      {
-        pending: 'Logging in',
-        error: 'Error to login'
-      }
-    );
+
+    dispatch(loginAction(authData))
   };
 
   return (
@@ -72,7 +69,7 @@ function Login(): JSX.Element {
                     autoComplete="off"
                     required
                     onChange={handleFieldChange}
-                  value={formData.password}
+                    value={formData.password}
                   />
                   <button className="input-login__button-eye" type="button">
                     <svg width="14" height="8" aria-hidden="true">
