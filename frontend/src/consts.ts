@@ -1,7 +1,7 @@
 export enum GuitarType {
-  electro = 'electro',
-  acoustic = 'acoustic',
-  ukulele = 'ukulele'
+  Electric = 'электро',
+  Acoustic = 'аккустика',
+  Ukulele = 'укулеле'
 }
 
 export const enum AppRoute {

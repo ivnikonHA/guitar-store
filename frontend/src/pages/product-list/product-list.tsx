@@ -4,7 +4,7 @@ import Filter from '../../components/filter/filter'
 import PaginationList from '../../components/pagination-list/pagination-list'
 import Sort from '../../components/sort/sort'
 import { useAppSelector } from '../../hooks/use-app-selector'
-import { getProducts, getSortDirection, getSortType } from '../../store/products/products-selectors'
+import { getFilterGuitarType, getFilterStringsCount, getProducts, getSortDirection, getSortType } from '../../store/products/products-selectors'
 import { Link } from 'react-router-dom'
 import { AppRoute } from '../../consts'
 import { sorting } from './utils'
@@ -16,10 +16,14 @@ function ProductList(): JSX.Element {
   // console.log('productlist')
   // dispatch(fetchProductsAction());
   const products = useAppSelector(getProducts);
+  const filterGuitarType = useAppSelector(getFilterGuitarType);
+  const filteredGuitarTypeProducts = products.filter((product) => filterGuitarType.includes(product.guitarType));
+  const filterStringsCount = useAppSelector(getFilterStringsCount);
+  const filteredProducts = filteredGuitarTypeProducts.filter((product) => filterStringsCount.includes(product.stringsCount));
   const sortType = useAppSelector(getSortType);
   const sortDirection = useAppSelector(getSortDirection);
 
-  const sortedProducts = sorting[sortType](products, sortDirection);
+  const sortedProducts = sorting[sortType](filteredProducts, sortDirection);
 
   return (
     <>

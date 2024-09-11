@@ -13,8 +13,9 @@ function CatalogItem({ product }: CatalogItemProps): JSX.Element {
       <div className="catalog-item__data">
         <img src={`${BACKEND_URL}${UPLOAD_PATH}${product.photo}`} srcSet="img/content/catalog-product-1@2x.png 2x" width="36" height="93" alt="Картинка гитары" />
         <div className="catalog-item__data-wrapper">
-          <Link className="link" to={`/product/${"test"}`}>
+          <Link className="link" to={`/product/${product.id}`}>
             <p className="catalog-item__data-title">{product.name}</p>
+            <p>{product.guitarType} - {product.stringsCount}</p>
           </Link>
           <br />
           <p className="catalog-item__data-date">Дата добавления {dayjs(product.publishDate).format('DD/MM/YYYY')}</p>

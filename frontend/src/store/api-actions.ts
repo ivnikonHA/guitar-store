@@ -22,7 +22,7 @@ ProductType,
   string,
   {extra: AxiosInstance}
 >('products/fetchProductById', async (id, {extra: api}) => {
-  const { data } = await api.get<ProductType>(generatePath(APIRoute.Product, {id}));
+  const { data } = await api.get<ProductType>(generatePath(APIRoute.Products, {id}));
   return data;
 });
 

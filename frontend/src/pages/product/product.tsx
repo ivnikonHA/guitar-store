@@ -1,8 +1,43 @@
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { fetchProductByIdAction } from '../../store/api-actions';
+import Error404 from '../error-404/error-404';
+import { useAppSelector } from '../../hooks/use-app-selector';
+import { getCurrentProduct, getProductDataLoadingStatus } from '../../store/product/product-selectors';
+import LoadingPage from '../loading-page/loading-page';
+import { BACKEND_URL, UPLOAD_PATH } from '../../consts';
+import { useEffect } from 'react';
 
 function Product(): JSX.Element {
-  const {id} = useParams();
+  const { id } = useParams();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if(id) {
+      dispatch(fetchProductByIdAction(id));
+    }
+  })
+
+  const currentProduct = useAppSelector(getCurrentProduct);
+  const isProductDataLoading = useAppSelector(getProductDataLoadingStatus);
+
+  if(isProductDataLoading) {
+    return <LoadingPage />
+  }
+
+  if(!currentProduct) {
+    return <Error404 />
+  }
+
+  const {
+    name,
+    photo,
+    article,
+    guitarType,
+    stringsCount,
+    description
+  } = currentProduct;
   return (
     <>
       <Helmet>
@@ -23,9 +58,9 @@ function Product(): JSX.Element {
             </li>
           </ul>
           <div className="product-container">
-            <img className="product-container__img" src="img/content/catalog-product-1.png" srcSet="img/content/catalog-product-1@2x.png 2x" width="90" height="235" alt="" />
+            <img className="product-container__img" src={`${BACKEND_URL}${UPLOAD_PATH}${photo}`} srcSet="img/content/catalog-product-1@2x.png 2x" width="90" height="235" alt="" />
             <div className="product-container__info-wrapper">
-              <h2 className="product-container__title title title--big title--uppercase">{id}</h2>
+              <h2 className="product-container__title title title--big title--uppercase">{name}</h2>
               <br />
               <br />
               <div className="tabs">
@@ -34,18 +69,18 @@ function Product(): JSX.Element {
                   <table className="tabs__table">
                     <tr className="tabs__table-row">
                       <td className="tabs__title">Артикул:</td>
-                      <td className="tabs__value">SO754565</td>
+                      <td className="tabs__value">{article}</td>
                     </tr>
                     <tr className="tabs__table-row">
                       <td className="tabs__title">Тип:</td>
-                      <td className="tabs__value">Электрогитара</td>
+                      <td className="tabs__value">{guitarType}</td>
                     </tr>
                     <tr className="tabs__table-row">
                       <td className="tabs__title">Количество струн:</td>
-                      <td className="tabs__value">6 струнная</td>
+                      <td className="tabs__value">{stringsCount}</td>
                     </tr>
                   </table>
-                  <p className="tabs__product-description hidden">Гитара подходит как для старта обучения, так и для домашних занятий или использования в полевых условиях, например, в походах или для проведения уличных выступлений. Доступная стоимость, качество и надежная конструкция, а также приятный внешний вид, который сделает вас звездой вечеринки.</p>
+                  <p className="tabs__product-description hidden">{description}</p>
                 </div>
               </div>
             </div>

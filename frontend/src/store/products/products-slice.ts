@@ -11,8 +11,8 @@ const initialState: ProductsStateType = {
   activeProduct: undefined,
   sortType: SortType.DATE,
   sortDirection: SortDirection.DESCENDING,
-  filterGuitarType: [],
-  filterStringsCount: [],
+  filterGuitarType: [...Object.values(GuitarType)],
+  filterStringsCount: [...Object.values(StringsCountType)],
   status: RequestStatus.Idle,
 };
 
