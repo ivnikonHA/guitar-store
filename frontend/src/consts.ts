@@ -34,7 +34,7 @@ export const enum RequestStatus {
 
 export const enum APIRoute {
   Products = '/products',
-  Product = '/product/:id',
+  Product = '/products/:id',
   Login = '/users/login',
   Logout = '/users/logout',
 }

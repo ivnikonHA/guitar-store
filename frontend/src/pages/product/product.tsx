@@ -17,7 +17,7 @@ function Product(): JSX.Element {
     if(id) {
       dispatch(fetchProductByIdAction(id));
     }
-  })
+  }, [id, dispatch]);
 
   const currentProduct = useAppSelector(getCurrentProduct);
   const isProductDataLoading = useAppSelector(getProductDataLoadingStatus);
