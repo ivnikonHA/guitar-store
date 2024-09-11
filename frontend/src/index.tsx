@@ -4,13 +4,14 @@ import { ToastContainer } from 'react-toastify';
 
 import App from './components/app/app';
 import { store } from './store';
-import { checkAuthAction } from './store/api-actions';
+import { checkAuthAction, fetchProductsAction } from './store/api-actions';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
 store.dispatch(checkAuthAction());
+store.dispatch(fetchProductsAction());
 
 root.render(
   <Provider store={store}>

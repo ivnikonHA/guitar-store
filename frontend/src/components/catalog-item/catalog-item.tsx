@@ -1,18 +1,24 @@
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../consts';
+import { AppRoute, BACKEND_URL, UPLOAD_PATH } from '../../consts';
+import { ProductType } from '../../types/product';
+import dayjs from 'dayjs';
 
-function CatalogItem(): JSX.Element {
+type CatalogItemProps = {
+  product: ProductType
+}
+
+function CatalogItem({ product }: CatalogItemProps): JSX.Element {
   return (
     <li className="catalog-item">
       <div className="catalog-item__data">
-        <img src="img/content/catalog-product-1.png" srcSet="img/content/catalog-product-1@2x.png 2x" width="36" height="93" alt="Картинка гитары" />
+        <img src={`${BACKEND_URL}${UPLOAD_PATH}${product.photo}`} srcSet="img/content/catalog-product-1@2x.png 2x" width="36" height="93" alt="Картинка гитары" />
         <div className="catalog-item__data-wrapper">
           <Link className="link" to={`/product/${"test"}`}>
-            <p className="catalog-item__data-title">ЭлектроГитара Честер bass</p>
+            <p className="catalog-item__data-title">{product.name}</p>
           </Link>
           <br />
-          <p className="catalog-item__data-date">Дата добавления 19.09.2022</p>
-          <p className="catalog-item__data-price">17 500 ₽</p>
+          <p className="catalog-item__data-date">Дата добавления {dayjs(product.publishDate).format('DD/MM/YYYY')}</p>
+          <p className="catalog-item__data-price">{product.price} ₽</p>
         </div>
       </div>
       <div className="catalog-item__buttons">

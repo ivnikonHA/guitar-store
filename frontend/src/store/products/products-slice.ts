@@ -1,14 +1,18 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 
-import { NameSpace, RequestStatus, SortOptions } from '../../consts';
+import { GuitarType, NameSpace, RequestStatus, SortDirection, SortType } from '../../consts';
 import { ProductsStateType } from '../../types/state';
 import { fetchProductsAction, loginAction, logoutAction } from '../api-actions';
+import { StringsCountType } from '../../types/product';
 
 const initialState: ProductsStateType = {
   products: [],
   activeProduct: undefined,
-  sortType: SortOptions.POPULAR,
+  sortType: SortType.DATE,
+  sortDirection: SortDirection.DESCENDING,
+  filterGuitarType: [],
+  filterStringsCount: [],
   status: RequestStatus.Idle,
 };
 
@@ -18,6 +22,15 @@ const productsSlice = createSlice({
   reducers: {
     changeSortType: (state, action: PayloadAction<{ sortType: string }>) => {
       state.sortType = action.payload.sortType;
+    },
+    changeSortDirection: (state, action: PayloadAction<{ sortDirection: number }>) => {
+      state.sortDirection = action.payload.sortDirection;
+    },
+    changeFilterGuitarType:  (state, action: PayloadAction<{ filterGuitarType: GuitarType[] }>) => {
+      state.filterGuitarType = action.payload.filterGuitarType;
+    },
+    changeFilterStringsCount:  (state, action: PayloadAction<{ filterStringsCount: StringsCountType[] }>) => {
+      state.filterStringsCount = action.payload.filterStringsCount;
     },
     activeProduct: (state, action: PayloadAction<{ productId: string | undefined }>) => {
       state.activeProduct = action.payload.productId;
@@ -49,6 +62,6 @@ const productsSlice = createSlice({
   },
 });
 
-const { changeSortType, activeProduct } = productsSlice.actions;
+const { changeSortType, changeSortDirection, changeFilterGuitarType, changeFilterStringsCount, activeProduct } = productsSlice.actions;
 
-export { activeProduct, changeSortType, productsSlice };
+export { activeProduct, changeSortType, changeSortDirection,  changeFilterGuitarType, changeFilterStringsCount, productsSlice };

@@ -1,6 +1,17 @@
+import { useState } from 'react';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import FilterItem from '../filter-item/filter-item';
+import { GuitarType } from '../../consts';
 
 function Filter(): JSX.Element {
+  const dispatch = useAppDispatch();
+  const [filterGuitarType, setFilterGuitarType] = useState([]);
+  const [filterStringsCount, setFilterStringsCount] = useState([]);
+
+  const handleFilterGuitarTypeClick = (item: GuitarType) => {
+
+  }
+
   return (
     <form className="catalog-filter" action="#" method="post">
       <h2 className="title title--bigger catalog-filter__title">Фильтр</h2>

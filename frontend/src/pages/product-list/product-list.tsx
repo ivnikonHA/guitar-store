@@ -3,8 +3,24 @@ import CatalogItem from '../../components/catalog-item/catalog-item'
 import Filter from '../../components/filter/filter'
 import PaginationList from '../../components/pagination-list/pagination-list'
 import Sort from '../../components/sort/sort'
+import { useAppSelector } from '../../hooks/use-app-selector'
+import { getProducts, getSortDirection, getSortType } from '../../store/products/products-selectors'
+import { Link } from 'react-router-dom'
+import { AppRoute } from '../../consts'
+import { sorting } from './utils'
+//import { useDispatch } from 'react-redux'
+//import { checkAuthAction, fetchProductsAction } from '../../store/api-actions'
 
 function ProductList(): JSX.Element {
+  //const dispatch = useDispatch();
+  // console.log('productlist')
+  // dispatch(fetchProductsAction());
+  const products = useAppSelector(getProducts);
+  const sortType = useAppSelector(getSortType);
+  const sortDirection = useAppSelector(getSortDirection);
+
+  const sortedProducts = sorting[sortType](products, sortDirection);
+
   return (
     <>
     <Helmet>
@@ -15,9 +31,11 @@ function ProductList(): JSX.Element {
         <div className="container">
           <h1 className="product-list__title">Список товаров</h1>
           <ul className="breadcrumbs">
-            <li className="breadcrumbs__item"><a className="link" href="./main.html">Вход</a>
+            <li className="breadcrumbs__item">
+              <Link className="link" to={AppRoute.Root}>Вход</Link>
             </li>
-            <li className="breadcrumbs__item"><a className="link">Товары</a>
+            <li className="breadcrumbs__item">
+              <a className="link">Товары</a>
             </li>
           </ul>
           <div className="catalog">
@@ -25,11 +43,12 @@ function ProductList(): JSX.Element {
             <Sort />
             <div className="catalog-cards">
               <ul className="catalog-cards__list">
-                <CatalogItem />
-                <CatalogItem />
-                <CatalogItem />
-                <CatalogItem />
-                <CatalogItem />
+                {
+                  sortedProducts.map((product) => (
+                    <CatalogItem key={product.id} product={product}/>
+                  )
+                  )
+                }
               </ul>
             </div>
           </div>

@@ -12,7 +12,7 @@ const fetchProductsAction = createAsyncThunk<
 ProductType[],
   undefined,
   {extra: AxiosInstance}
->('offers/fetchOffers', async (_arg, { extra: api }) => {
+>('products/fetchProducts', async (_arg, { extra: api }) => {
   const { data } = await api.get<ProductType[]>(APIRoute.Products);
   return data;
 });
@@ -21,12 +21,10 @@ const fetchProductByIdAction = createAsyncThunk<
 ProductType,
   string,
   {extra: AxiosInstance}
->('offer/fetchOfferById', async (id, {extra: api}) => {
+>('products/fetchProductById', async (id, {extra: api}) => {
   const { data } = await api.get<ProductType>(generatePath(APIRoute.Product, {id}));
   return data;
 });
-
-
 
 const checkAuthAction = createAsyncThunk<
   UserData,

@@ -1,17 +1,17 @@
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { FormEvent, ReactEventHandler, useState } from 'react';
-import { useDispatch } from 'react-redux';
 //import { toast } from 'react-toastify';
 
 import { AppRoute } from '../../consts';
 import { AuthData } from '../../types/auth-data';
 import { loginAction } from '../../store/api-actions';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
 
 type ChangeHandler = ReactEventHandler<HTMLInputElement>;
 
 function Login(): JSX.Element {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [formData, setFormData] = useState({
     email: '',

@@ -8,10 +8,12 @@ const getProductsDataLoadingStatus = (state: State): RequestStatus =>
 const getActiveProduct = (state: State): string | undefined =>
   state[NameSpace.Products].activeProduct;
 const getSortType = (state: State): string => state[NameSpace.Products].sortType;
+const getSortDirection = (state: State): number => state[NameSpace.Products].sortDirection;
 
 export {
   getActiveProduct,
   getProducts,
   getProductsDataLoadingStatus,
   getSortType,
+  getSortDirection
 };

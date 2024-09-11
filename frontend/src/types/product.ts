@@ -12,6 +12,7 @@ export enum StringsCountType {
 }
 
 export type ProductType = {
+  id: string,
   name: string,
   description: string,
   publishDate: string,
@@ -19,6 +20,7 @@ export type ProductType = {
   guitarType: GuitarType,
   article: string,
   stringsCount: StringsCountType,
-  price: number
+  price: number,
+  createdAt: string
 }
 

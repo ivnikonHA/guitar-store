@@ -1,12 +1,15 @@
-import { AuthorizationStatus, RequestStatus } from '../consts';
+import { AuthorizationStatus, GuitarType, RequestStatus } from '../consts';
 import { store } from '../store';
-import { ProductType } from './product';
+import { ProductType, StringsCountType } from './product';
 import { UserData } from './user-data';
 
 export type ProductsStateType = {
   products: ProductType[];
   activeProduct?: string;
   sortType: string;
+  sortDirection: number;
+  filterGuitarType: GuitarType[],
+  filterStringsCount: StringsCountType[],
   status: RequestStatus;
 }
 

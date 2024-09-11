@@ -39,9 +39,15 @@ export const enum APIRoute {
   Logout = '/users/logout',
 }
 
-export const SortOptions = {
-  POPULAR: 'Popular',
-  PRICE_ASCENDING: 'Price: low to high',
-  PRICE_DESCENDING: 'Price: high to low',
-  TOP_RATED: 'Top rated first'
+export const SortType = {
+  DATE: 'Date',
+  PRICE: 'Price'
 };
+
+export const SortDirection = {
+  ACSENDING: 1,
+  DESCENDING: -1
+}
+
+export const BACKEND_URL = 'http://localhost:5000';
+export const UPLOAD_PATH = '/upload/';
