@@ -10,7 +10,7 @@ export const enum AppRoute {
   ProductId = '/product/:id',
   Register = '/register',
   AddProduct = '/add-product',
-  EditProduct = '/edit-product'
+  EditProduct = '/edit-product/:id'
 }
 
 export const enum NameSpace {

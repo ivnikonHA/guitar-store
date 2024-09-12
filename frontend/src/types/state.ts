@@ -1,3 +1,5 @@
+import { ReactEventHandler } from 'react';
+
 import { AuthorizationStatus, GuitarType, RequestStatus } from '../consts';
 import { store } from '../store';
 import { ProductType, StringsCountType } from './product';
@@ -25,3 +27,5 @@ export type UserState = {
 
 export type State = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+
+export type ChangeHandler = ReactEventHandler<HTMLInputElement | HTMLTextAreaElement>;

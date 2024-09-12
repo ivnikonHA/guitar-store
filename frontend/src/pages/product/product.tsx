@@ -50,7 +50,7 @@ function Product(): JSX.Element {
   return (
     <>
       <Helmet>
-        <title>Guitar Shop - </title>
+        <title>{`Guitar Shop - ${name}`}</title>
       </Helmet>
       <main className="page-content">
         <div className="container">

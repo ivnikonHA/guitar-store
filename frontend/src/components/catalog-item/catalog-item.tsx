@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { AppRoute, BACKEND_URL, UPLOAD_PATH } from '../../consts';
+import { BACKEND_URL, UPLOAD_PATH } from '../../consts';
 import { ProductType } from '../../types/product';
 import dayjs from 'dayjs';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
@@ -29,7 +29,7 @@ function CatalogItem({ product }: CatalogItemProps): JSX.Element {
         </div>
       </div>
       <div className="catalog-item__buttons">
-        <Link className="button button--small button--black-border" to={AppRoute.EditProduct} aria-label="Редактировать товар">Редактировать</Link>
+        <Link className="button button--small button--black-border" to={`/edit-product/${product.id}`} aria-label="Редактировать товар">Редактировать</Link>
         <button
           className="button button--small button--black-border"
           type="submit"
