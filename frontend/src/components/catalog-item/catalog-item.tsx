@@ -2,12 +2,18 @@ import { Link } from 'react-router-dom';
 import { AppRoute, BACKEND_URL, UPLOAD_PATH } from '../../consts';
 import { ProductType } from '../../types/product';
 import dayjs from 'dayjs';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { deleteProductByIdAction } from '../../store/api-actions';
 
 type CatalogItemProps = {
   product: ProductType
 }
 
 function CatalogItem({ product }: CatalogItemProps): JSX.Element {
+  const dispatch = useAppDispatch();
+  const handleDeleteButtonClick = (id: string) => {
+    dispatch(deleteProductByIdAction(id));
+  }
   return (
     <li className="catalog-item">
       <div className="catalog-item__data">
@@ -24,7 +30,12 @@ function CatalogItem({ product }: CatalogItemProps): JSX.Element {
       </div>
       <div className="catalog-item__buttons">
         <Link className="button button--small button--black-border" to={AppRoute.EditProduct} aria-label="Редактировать товар">Редактировать</Link>
-        <button className="button button--small button--black-border" type="submit" aria-label="Удалить товар">Удалить</button>
+        <button
+          className="button button--small button--black-border"
+          type="submit"
+          aria-label="Удалить товар"
+          onClick={() => handleDeleteButtonClick(product.id)}
+        >Удалить</button>
       </div>
     </li>
   )

@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 
 import { GuitarType, NameSpace, RequestStatus, SortDirection, SortType } from '../../consts';
 import { ProductsStateType } from '../../types/state';
-import { fetchProductsAction, loginAction, logoutAction } from '../api-actions';
+import { deleteProductByIdAction, fetchProductsAction, loginAction, logoutAction } from '../api-actions';
 import { StringsCountType } from '../../types/product';
 
 const initialState: ProductsStateType = {
@@ -58,7 +58,14 @@ const productsSlice = createSlice({
         if(state.status !== RequestStatus.Idle) {
           state.status = RequestStatus.Idle;
         }
-      });
+      })
+      .addCase(deleteProductByIdAction.pending, (state) => {
+        state.status = RequestStatus.Loading;
+      })
+      .addCase(deleteProductByIdAction.fulfilled, (state, action) => {
+        state.status = RequestStatus.Success;
+        state.products = state.products.filter((product) => product.id !== action.payload)
+      } )
   },
 });
 

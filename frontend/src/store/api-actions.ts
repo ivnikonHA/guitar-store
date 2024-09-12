@@ -26,6 +26,15 @@ ProductType,
   return data;
 });
 
+const deleteProductByIdAction = createAsyncThunk<
+  string,
+  string,
+  {extra: AxiosInstance}
+>('products/deleteProductById', async (id, {extra: api}) => {
+  await api.delete(generatePath(APIRoute.Product, {id}));
+  return id;
+});
+
 const checkAuthAction = createAsyncThunk<
   UserData,
   undefined,
@@ -54,6 +63,7 @@ const logoutAction = createAsyncThunk<void, undefined, {extra: AxiosInstance}>(
 export {
   checkAuthAction,
   fetchProductByIdAction,
+  deleteProductByIdAction,
   fetchProductsAction,
   loginAction,
   logoutAction

@@ -83,18 +83,20 @@ function Product(): JSX.Element {
                 >Описание</a>
                 <div className="tabs__content" id="characteristics">
                   <table className={`tabs__table ${activeTab === Tab.Description && 'hidden'}`}>
-                    <tr className="tabs__table-row">
-                      <td className="tabs__title">Артикул:</td>
-                      <td className="tabs__value">{article}</td>
-                    </tr>
-                    <tr className="tabs__table-row">
-                      <td className="tabs__title">Тип:</td>
-                      <td className="tabs__value">{guitarType}</td>
-                    </tr>
-                    <tr className="tabs__table-row">
-                      <td className="tabs__title">Количество струн:</td>
-                      <td className="tabs__value">{stringsCount}</td>
-                    </tr>
+                    <tbody>
+                      <tr className="tabs__table-row">
+                        <td className="tabs__title">Артикул:</td>
+                        <td className="tabs__value">{article}</td>
+                      </tr>
+                      <tr className="tabs__table-row">
+                        <td className="tabs__title">Тип:</td>
+                        <td className="tabs__value">{guitarType}</td>
+                      </tr>
+                      <tr className="tabs__table-row">
+                        <td className="tabs__title">Количество струн:</td>
+                        <td className="tabs__value">{stringsCount}</td>
+                      </tr>
+                    </tbody>
                   </table>
                   <p className={`tabs__product-description ${activeTab === Tab.Characteristics && 'hidden'}`}>{description}</p>
                 </div>
