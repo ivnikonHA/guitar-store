@@ -1,5 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { fetchProductByIdAction } from '../../store/api-actions';
 import Error404 from '../error-404/error-404';
@@ -7,11 +9,16 @@ import { useAppSelector } from '../../hooks/use-app-selector';
 import { getCurrentProduct, getProductDataLoadingStatus } from '../../store/product/product-selectors';
 import LoadingPage from '../loading-page/loading-page';
 import { BACKEND_URL, UPLOAD_PATH } from '../../consts';
-import { useEffect } from 'react';
 
 function Product(): JSX.Element {
   const { id } = useParams();
   const dispatch = useAppDispatch();
+  const enum Tab {
+    Characteristics = 'Characteristics',
+    Description = 'Description'
+  };
+
+  const [activeTab, setActiveTab] = useState(Tab.Characteristics);
 
   useEffect(() => {
     if(id) {
@@ -38,6 +45,8 @@ function Product(): JSX.Element {
     stringsCount,
     description
   } = currentProduct;
+
+
   return (
     <>
       <Helmet>
@@ -64,9 +73,16 @@ function Product(): JSX.Element {
               <br />
               <br />
               <div className="tabs">
-                <a className="button button--medium tabs__button" href="#characteristics">Характеристики</a><a className="button button--black-border button--medium tabs__button" href="#description">Описание</a>
+                <a
+                  className={`button ${activeTab === Tab.Characteristics && 'button--black-border'} button--medium tabs__button`}
+                  onClick={() => setActiveTab(Tab.Characteristics)}
+                >Характеристики</a>
+                <a
+                  className={`button ${activeTab === Tab.Description && 'button--black-border'} button--medium tabs__button`}
+                  onClick={() => setActiveTab(Tab.Description)}
+                >Описание</a>
                 <div className="tabs__content" id="characteristics">
-                  <table className="tabs__table">
+                  <table className={`tabs__table ${activeTab === Tab.Description && 'hidden'}`}>
                     <tr className="tabs__table-row">
                       <td className="tabs__title">Артикул:</td>
                       <td className="tabs__value">{article}</td>
@@ -80,7 +96,7 @@ function Product(): JSX.Element {
                       <td className="tabs__value">{stringsCount}</td>
                     </tr>
                   </table>
-                  <p className="tabs__product-description hidden">{description}</p>
+                  <p className={`tabs__product-description ${activeTab === Tab.Characteristics && 'hidden'}`}>{description}</p>
                 </div>
               </div>
             </div>
