@@ -15,7 +15,6 @@ export const enum AppRoute {
 
 export const enum NameSpace {
   Products = 'PRODUCTS',
-  Product = 'PRODUCT',
   User = 'USER'
 }
 

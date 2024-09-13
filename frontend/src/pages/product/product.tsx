@@ -1,18 +1,15 @@
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { fetchProductByIdAction } from '../../store/api-actions';
 import Error404 from '../error-404/error-404';
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { getCurrentProduct, getProductDataLoadingStatus } from '../../store/product/product-selectors';
-import LoadingPage from '../loading-page/loading-page';
+import { getProducts } from '../../store/products/products-selectors';
 import { BACKEND_URL, UPLOAD_PATH } from '../../consts';
+import { ProductType } from '../../types/product';
 
 function Product(): JSX.Element {
   const { id } = useParams();
-  const dispatch = useAppDispatch();
   const enum Tab {
     Characteristics = 'Characteristics',
     Description = 'Description'
@@ -20,18 +17,8 @@ function Product(): JSX.Element {
 
   const [activeTab, setActiveTab] = useState(Tab.Characteristics);
 
-  useEffect(() => {
-    if(id) {
-      dispatch(fetchProductByIdAction(id));
-    }
-  }, [id, dispatch]);
-
-  const currentProduct = useAppSelector(getCurrentProduct);
-  const isProductDataLoading = useAppSelector(getProductDataLoadingStatus);
-
-  if(isProductDataLoading) {
-    return <LoadingPage />
-  }
+  const products = useAppSelector(getProducts);
+  const currentProduct = products.find((product: ProductType) => product.id === id);
 
   if(!currentProduct) {
     return <Error404 />

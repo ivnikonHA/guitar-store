@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 
 import { GuitarType, NameSpace, RequestStatus, SortDirection, SortType } from '../../consts';
 import { ProductsStateType } from '../../types/state';
-import { deleteProductByIdAction, fetchProductsAction, loginAction, logoutAction } from '../api-actions';
+import { deleteProductByIdAction, editProductByIdAction, fetchProductByIdAction, fetchProductsAction, loginAction, logoutAction } from '../api-actions';
 import { StringsCountType } from '../../types/product';
 
 const initialState: ProductsStateType = {
@@ -14,6 +14,7 @@ const initialState: ProductsStateType = {
   filterGuitarType: [...Object.values(GuitarType)],
   filterStringsCount: [...Object.values(StringsCountType)],
   status: RequestStatus.Idle,
+  currentProduct: null
 };
 
 const productsSlice = createSlice({
@@ -59,13 +60,35 @@ const productsSlice = createSlice({
           state.status = RequestStatus.Idle;
         }
       })
+      .addCase(fetchProductByIdAction.fulfilled, (state, action) => {
+        state.currentProduct = action.payload;
+        state.status = RequestStatus.Idle;
+      })
+      .addCase(fetchProductByIdAction.pending, (state) => {
+        state.status = RequestStatus.Loading;
+      })
+      .addCase(fetchProductByIdAction.rejected, (state) => {
+        toast.error('Error loading offer data.');
+        state.status = RequestStatus.Failed;
+      })
       .addCase(deleteProductByIdAction.pending, (state) => {
         state.status = RequestStatus.Loading;
       })
       .addCase(deleteProductByIdAction.fulfilled, (state, action) => {
         state.status = RequestStatus.Success;
         state.products = state.products.filter((product) => product.id !== action.payload)
-      } )
+      })
+      .addCase(editProductByIdAction.pending, (state) => {
+        state.status = RequestStatus.Loading;
+      })
+      .addCase(editProductByIdAction.fulfilled, (state, action) => {
+        state.currentProduct = action.payload;
+        state.status = RequestStatus.Idle;
+      })
+      .addCase(editProductByIdAction.rejected, (state, action) => {
+        toast.error(action.error.message);
+        state.status = RequestStatus.Failed;
+      })
   },
 });
 

@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
 
 import Error404 from '../../pages/error-404/error-404';
 import ProductList from '../../pages/product-list/product-list';
@@ -23,64 +23,66 @@ function App(): JSX.Element {
   if (offersDataLoadingStatus === RequestStatus.Loading) {
     return <LoadingPage />;
   }
+
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path='/' element={<Layout />}>
+        <Route
+          path={AppRoute.Root}
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path={AppRoute.ProductList}
+          element={
+            <PrivateRoute>
+              <ProductList />
+            </PrivateRoute>
+          }
+          loader={loadProductsData}
+        />
+        <Route
+          path={AppRoute.ProductId}
+          element={
+            <PrivateRoute>
+              <Product />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={AppRoute.Register}
+          element={
+            <PublicRoute>
+              <Register />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path={AppRoute.AddProduct}
+          element={
+            <PrivateRoute>
+              <AddProduct />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={AppRoute.EditProduct}
+          element={
+            <PrivateRoute>
+              <EditProduct />
+            </PrivateRoute>
+          }
+        />
+        <Route path='*' element={<Error404 />} />
+      </Route>
+    )
+  )
   return (
     <HelmetProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path='/' element={<Layout />}>
-            <Route
-              path={AppRoute.Root}
-              element={
-                <PublicRoute>
-                  <Login />
-                </PublicRoute>
-              }
-            />
-            <Route
-              path={AppRoute.ProductList}
-              element={
-                <PrivateRoute>
-                  <ProductList />
-                </PrivateRoute>
-              }
-              loader={loadProductsData}
-            />
-            <Route
-              path={AppRoute.ProductId}
-              element={
-                <PrivateRoute>
-                  <Product />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path={AppRoute.Register}
-              element={
-                <PublicRoute>
-                  <Register />
-                </PublicRoute>
-              }
-            />
-            <Route
-              path={AppRoute.AddProduct}
-              element={
-                <PrivateRoute>
-                  <AddProduct />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path={AppRoute.EditProduct}
-              element={
-                <PrivateRoute>
-                  <EditProduct />
-                </PrivateRoute>
-              }
-            />
-            <Route path='*' element={<Error404 />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <RouterProvider router={router} />
     </HelmetProvider>
   )
 }

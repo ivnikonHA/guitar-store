@@ -11,6 +11,8 @@ const getSortType = (state: State): string => state[NameSpace.Products].sortType
 const getSortDirection = (state: State): number => state[NameSpace.Products].sortDirection;
 const getFilterGuitarType = (state: State): GuitarType[] => state[NameSpace.Products].filterGuitarType;
 const getFilterStringsCount = (state: State): StringsCountType[] => state[NameSpace.Products].filterStringsCount;
+const getCurrentProduct = (state: State): ProductType | null =>
+  state[NameSpace.Products].currentProduct;
 
 export {
   getActiveProduct,
@@ -19,5 +21,6 @@ export {
   getSortType,
   getSortDirection,
   getFilterGuitarType,
-  getFilterStringsCount
+  getFilterStringsCount,
+  getCurrentProduct
 };

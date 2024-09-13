@@ -24,3 +24,26 @@ export type ProductType = {
   createdAt: string
 }
 
+export type CreateProductDto = {
+  name: string;
+  description: string;
+  publishDate: string;
+  photo: string;
+  guitarType: GuitarType;
+  article: string;
+  stringsCount: StringsCountType;
+  price: number;
+}
+
+export type UpdateProductDto = {
+  id: string;
+  name?: string;
+  description?: string;
+  publishDate?: string;
+  photo?: string;
+  guitarType?: GuitarType;
+  article?: string;
+  stringsCount?: StringsCountType;
+  price?: number;
+}
+

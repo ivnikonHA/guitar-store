@@ -5,11 +5,12 @@ import { generatePath } from 'react-router-dom';
 import { APIRoute } from '../consts';
 import { dropToken, saveToken } from '../services/token';
 import { AuthData } from '../types/auth-data';
-import { ProductType } from '../types/product';
+import { CreateProductDto, ProductType, UpdateProductDto } from '../types/product';
 import { UserData } from '../types/user-data';
 
+
 const fetchProductsAction = createAsyncThunk<
-ProductType[],
+  ProductType[],
   undefined,
   {extra: AxiosInstance}
 >('products/fetchProducts', async (_arg, { extra: api }) => {
@@ -18,7 +19,7 @@ ProductType[],
 });
 
 const fetchProductByIdAction = createAsyncThunk<
-ProductType,
+  ProductType,
   string,
   {extra: AxiosInstance}
 >('products/fetchProductById', async (id, {extra: api}) => {
@@ -34,6 +35,24 @@ const deleteProductByIdAction = createAsyncThunk<
   await api.delete(generatePath(APIRoute.Product, {id}));
   return id;
 });
+
+const editProductByIdAction = createAsyncThunk<
+  ProductType,
+  UpdateProductDto,
+  {extra: AxiosInstance}
+>('products/editProductById', async (dto, {extra: api}) => {
+  const {data} = await api.patch<ProductType>(generatePath(APIRoute.Product, {id: dto.id}), dto);
+  return data;
+});
+
+const createProductByIdAction = createAsyncThunk<
+  ProductType,
+  CreateProductDto,
+  {extra: AxiosInstance}
+>('products/editProductById', async (dto, {extra: api}) => {
+  const {data} = await api.post<ProductType>(APIRoute.Product, dto);
+  return data;
+})
 
 const checkAuthAction = createAsyncThunk<
   UserData,
@@ -64,6 +83,8 @@ export {
   checkAuthAction,
   fetchProductByIdAction,
   deleteProductByIdAction,
+  editProductByIdAction,
+  createProductByIdAction,
   fetchProductsAction,
   loginAction,
   logoutAction

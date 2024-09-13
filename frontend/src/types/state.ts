@@ -13,6 +13,7 @@ export type ProductsStateType = {
   filterGuitarType: GuitarType[],
   filterStringsCount: StringsCountType[],
   status: RequestStatus;
+  currentProduct: ProductType | null
 }
 
 export type ProductStateType = {

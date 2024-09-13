@@ -82,7 +82,7 @@ export class ProductController extends BaseController {
 
   public async create({ body }: Request<unknown, unknown, CreateProductDto>, res: Response): Promise<void> {
     const result = await this.productService.create(body);
-
+    this.logger.info(`Created product with id ${result.id}`);
     this.created(res, fillDTO(ProductRdo, result));
   }
 
@@ -94,7 +94,8 @@ export class ProductController extends BaseController {
 
   public async update({ body, params}: Request<ParamProductId, unknown, UpdateProductDto>, res: Response): Promise<void> {
     const result = await this.productService.updateById(params.id, body);
-
+    console.log(body)
+    this.logger.info(`Updated product with id ${params.id}, name ${body.name}`);
     this.ok(res, fillDTO(ProductRdo, result));
   }
 

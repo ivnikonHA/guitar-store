@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { AuthorizationStatus, NameSpace } from '../../consts';
 import { UserState } from '../../types/state';
 import { checkAuthAction, loginAction, logoutAction } from '../api-actions';
+import { dropToken } from '../../services/token';
 
 const initialState: UserState = {
   authorizationStatus: AuthorizationStatus.Unknown,
@@ -24,6 +25,7 @@ export const userSlice = createSlice({
         state.userData = action.payload;
       })
       .addCase(checkAuthAction.rejected, (state) => {
+        dropToken();
         state.authorizationStatus = AuthorizationStatus.NoAuth;
       })
       .addCase(loginAction.fulfilled, (state, action) => {

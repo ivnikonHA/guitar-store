@@ -1,16 +1,15 @@
-import { useEffect, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { fetchProductByIdAction } from '../../store/api-actions';
-import { getCurrentProduct, getProductDataLoadingStatus } from '../../store/product/product-selectors';
+import { editProductByIdAction} from '../../store/api-actions';
+import { getProducts } from '../../store/products/products-selectors';
 import Error404 from '../error-404/error-404';
-import LoadingPage from '../loading-page/loading-page';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { AppRoute, BACKEND_URL, UPLOAD_PATH } from '../../consts';
 import dayjs from 'dayjs';
-import { GuitarType, StringsCountType } from '../../types/product';
+import { GuitarType, ProductType, StringsCountType, UpdateProductDto } from '../../types/product';
 import { ChangeHandler } from '../../types/state';
 
 function EditProduct(): JSX.Element {
@@ -18,14 +17,8 @@ function EditProduct(): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if(id) {
-      dispatch(fetchProductByIdAction(id));
-    }
-  }, [id, dispatch]);
-
-  const currentProduct = useAppSelector(getCurrentProduct);
-  const isProductDataLoading = useAppSelector(getProductDataLoadingStatus);
+  const products = useAppSelector(getProducts);
+  const currentProduct = products.find((product: ProductType) => product.id === id);
 
   const [formData, setFormData] = useState({
     title: currentProduct?.name,
@@ -40,17 +33,28 @@ function EditProduct(): JSX.Element {
 
   const handleFieldChange: ChangeHandler = (evt) => {
     const { name, value } = evt.currentTarget;
-    console.log(name, value, formData)
     setFormData({ ...formData, [name]: value });
   };
   const handleBackButton = () => {
     navigate(AppRoute.ProductList);
   }
 
-
-  if(isProductDataLoading) {
-    return <LoadingPage />
-  }
+  const handleSubmitForm = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    const productData: UpdateProductDto = {
+      id: currentProduct?.id ?? '',
+      name: formData.title,
+      description: formData.description,
+      publishDate: formData.publishDate,
+      photo: formData.photo,
+      guitarType: formData.itemType,
+      article: formData.sku,
+      stringsCount: formData.stringsCount,
+      price: formData.price
+    };
+    console.log(productData)
+    dispatch(editProductByIdAction(productData))
+  };
 
   if(!currentProduct) {
     return <Error404 />
@@ -73,7 +77,7 @@ function EditProduct(): JSX.Element {
               <li className="breadcrumbs__item"><a className="link">СURT Z30 Plus</a>
               </li>
             </ul>
-            <form className="edit-item__form" action="#" method="get">
+            <form className="edit-item__form" method="post" onSubmit={handleSubmitForm}>
               <div className="edit-item__form-left">
                 <div className="edit-item-image edit-item__form-image">
                   <div className="edit-item-image__image-wrap">
