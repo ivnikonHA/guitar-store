@@ -8,6 +8,9 @@ import { MockDataType } from '../../shared/types/index.js';
 import { GuitarProductGenerator } from '../../shared/libs/product-generator/index.js';
 import { ProductService } from '../../shared/modules/product/product.service.js';
 import { ProductModel } from '../../shared/modules/product/product.entity.js';
+import { UserService } from '../../shared/modules/user/user.service.js';
+import { UserModel } from '../../shared/modules/user/user.entity.js';
+import { RestConfig } from '../../shared/libs/config/rest.config.js';
 
 export class GenerateCommand implements Command {
   private logger: Logger;
@@ -15,12 +18,16 @@ export class GenerateCommand implements Command {
   private productGenerator: GuitarProductGenerator;
   private initialData: MockDataType;
   private productService: ProductService;
+  private config: RestConfig;
+  private userService: UserService;
 
   constructor()
   {
     this.logger = new PinoLogger();
     this.databaseClient = new MongoDatabaseClient(this.logger);
+    this.config = new RestConfig(this.logger);
     this.productService = new ProductService(this.logger, ProductModel);
+    this.userService = new UserService(this.logger, UserModel, this.config);
   }
 
   private async load(filepath: string) {
@@ -54,9 +61,10 @@ export class GenerateCommand implements Command {
 
     for(let i = 0; i < offerCount; i++) {
       const product = this.productGenerator.generate();
-      const result = await this.productService.create(product);
-      console.log(result);
+      await this.productService.create(product);
     }
+
+    await this.userService.create({name: 'admin', email:'admin@admin.ru', password:'admin'});
 
     await this.databaseClient.disconnect();
   }
