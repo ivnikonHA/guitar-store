@@ -40,6 +40,7 @@ function EditProduct(): JSX.Element {
 
   const handleFieldChange: ChangeHandler = (evt) => {
     const { name, value } = evt.currentTarget;
+    console.log(name, value, formData)
     setFormData({ ...formData, [name]: value });
   };
   const handleBackButton = () => {
@@ -88,27 +89,27 @@ function EditProduct(): JSX.Element {
                   <input
                     type="radio"
                     id="guitar"
-                    name="item-type"
+                    name="itemType"
                     value={GuitarType.Acoustic}
-                    checked={formData.itemType === GuitarType.Acoustic}
+                    checked={formData.itemType === GuitarType.Acoustic ? true: false }
                     onChange={handleFieldChange}
                   />
                   <label htmlFor="guitar">Акустическая гитара</label>
                   <input
                     type="radio"
                     id="el-guitar"
-                    name="item-type"
+                    name="itemType"
                     value={GuitarType.Electric}
-                    checked={formData.itemType === GuitarType.Electric}
+                    checked={formData.itemType === GuitarType.Electric ? true: false}
                     onChange={handleFieldChange}
                   />
                   <label htmlFor="el-guitar">Электрогитара</label>
                   <input
                     type="radio"
                     id="ukulele"
-                    name="item-type"
+                    name="itemType"
                     value={GuitarType.Ukulele}
-                    checked={formData.itemType === GuitarType.Ukulele}
+                    checked={formData.itemType === GuitarType.Ukulele ? true: false}
                     onChange={handleFieldChange}
                   />
                   <label htmlFor="ukulele">Укулеле</label>
@@ -117,33 +118,37 @@ function EditProduct(): JSX.Element {
                   <input
                     type="radio"
                     id="string-qty-4"
-                    name="string-qty"
+                    name="stringsCount"
                     value={StringsCountType.Four}
                     checked={formData.stringsCount === StringsCountType.Four}
+                    onChange={handleFieldChange}
                   />
                   <label htmlFor="string-qty-4">4</label>
                   <input
                     type="radio"
                     id="string-qty-6"
-                    name="string-qty"
+                    name="stringsCount"
                     value={StringsCountType.Six}
                     checked={formData.stringsCount === StringsCountType.Six}
+                    onChange={handleFieldChange}
                   />
                   <label htmlFor="string-qty-6">6</label>
                   <input
                     type="radio"
                     id="string-qty-7"
-                    name="string-qty"
+                    name="stringsCount"
                     value={StringsCountType.Seven}
                     checked={formData.stringsCount === StringsCountType.Seven}
+                    onChange={handleFieldChange}
                   />
                   <label htmlFor="string-qty-7">7</label>
                   <input
                     type="radio"
                     id="string-qty-12"
-                    name="string-qty"
+                    name="stringsCount"
                     value={StringsCountType.Twelve}
                     checked={formData.stringsCount === StringsCountType.Twelve}
+                    onChange={handleFieldChange}
                   />
                   <label htmlFor="string-qty-12">12</label>
                 </div>
