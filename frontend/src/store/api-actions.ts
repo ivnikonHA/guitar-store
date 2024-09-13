@@ -49,8 +49,8 @@ const createProductByIdAction = createAsyncThunk<
   ProductType,
   CreateProductDto,
   {extra: AxiosInstance}
->('products/editProductById', async (dto, {extra: api}) => {
-  const {data} = await api.post<ProductType>(APIRoute.Product, dto);
+>('products/createProductById', async (dto, {extra: api}) => {
+  const {data} = await api.post<ProductType>(APIRoute.Products, dto);
   return data;
 })
 

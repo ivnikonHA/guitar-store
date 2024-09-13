@@ -8,13 +8,8 @@ import { getFilterGuitarType, getFilterStringsCount, getProducts, getSortDirecti
 import { Link } from 'react-router-dom'
 import { AppRoute } from '../../consts'
 import { sorting } from './utils'
-//import { useDispatch } from 'react-redux'
-//import { checkAuthAction, fetchProductsAction } from '../../store/api-actions'
 
 function ProductList(): JSX.Element {
-  //const dispatch = useDispatch();
-  // console.log('productlist')
-  // dispatch(fetchProductsAction());
   const products = useAppSelector(getProducts);
   const filterGuitarType = useAppSelector(getFilterGuitarType);
   const filteredGuitarTypeProducts = products.filter((product) => filterGuitarType.includes(product.guitarType));
@@ -56,7 +51,10 @@ function ProductList(): JSX.Element {
               </ul>
             </div>
           </div>
-          <button className="button product-list__button button--red button--big">Добавить новый товар</button>
+          <Link
+            className="button product-list__button button--red button--big"
+            to={AppRoute.AddProduct}
+          >Добавить новый товар</Link>
           <PaginationList />
         </div>
       </section>

@@ -13,8 +13,8 @@ const root = ReactDOM.createRoot(
 store.dispatch(checkAuthAction());
 
 root.render(
-  <Provider store={store}>
-    <ToastContainer />
-    <App />
-  </Provider>
+    <Provider store={store}>
+      <ToastContainer />
+      <App />
+    </Provider>
 );

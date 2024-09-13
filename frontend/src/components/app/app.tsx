@@ -1,4 +1,5 @@
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Error404 from '../../pages/error-404/error-404';
 import ProductList from '../../pages/product-list/product-list';
@@ -16,6 +17,7 @@ import { getProductsDataLoadingStatus } from '../../store/products/products-sele
 import LoadingPage from '../../pages/loading-page/loading-page';
 import { loadProductsData } from '../../pages/product-list/loader';
 import PrivateRoute from '../private-route/private-route';
+import { ToastContainer } from 'react-toastify';
 
 function App(): JSX.Element {
   const offersDataLoadingStatus = useAppSelector(getProductsDataLoadingStatus);
