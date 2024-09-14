@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 
-import Error404 from '../error-404/error-404';
+import { Error404 } from '../index';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { getProducts } from '../../store/products/products-selectors';
 import { BACKEND_URL, UPLOAD_PATH } from '../../consts';

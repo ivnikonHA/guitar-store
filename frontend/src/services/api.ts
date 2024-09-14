@@ -1,13 +1,10 @@
 import axios, { AxiosInstance } from 'axios';
 
 import { getToken } from './token';
-import { BACKEND_URL } from '../consts';
-
-
-const REQUEST_TIMEOUT = 5000;
-const TOKEN_HEADER = 'authorization';
+import { BACKEND_URL, REQUEST_TIMEOUT, TOKEN_HEADER } from '../consts';
 
 export const createAPI = (): AxiosInstance => {
+  console.log(BACKEND_URL)
   const api = axios.create({
     baseURL: BACKEND_URL,
     timeout: REQUEST_TIMEOUT
