@@ -4,9 +4,8 @@ import { generatePath } from 'react-router-dom';
 
 import { APIRoute } from '../consts';
 import { dropToken, saveToken } from '../services/token';
-import { AuthData } from '../types/auth-data';
 import { CreateProductDto, ProductType, UpdateProductDto } from '../types/product';
-import { UserData } from '../types/user-data';
+import { CreateUserDTO, LoginUserDto, UserData } from '../types/user-data';
 
 
 const fetchProductsAction = createAsyncThunk<
@@ -63,10 +62,10 @@ const checkAuthAction = createAsyncThunk<
   return data;
 });
 
-const loginAction = createAsyncThunk<UserData, AuthData, {extra: AxiosInstance}>(
+const loginAction = createAsyncThunk<UserData, LoginUserDto, {extra: AxiosInstance}>(
   'user/login',
-  async ({ login: email, password }, { extra: api }) => {
-    const { data } = await api.post<UserData>(APIRoute.Login, { email, password });
+  async ( dto, { extra: api }) => {
+    const { data } = await api.post<UserData>(APIRoute.Login, dto);
     saveToken(data.token);
     return data;
   }
@@ -79,6 +78,14 @@ const logoutAction = createAsyncThunk<void, undefined, {extra: AxiosInstance}>(
   }
 );
 
+const registerAction = createAsyncThunk<UserData, CreateUserDTO, {extra: AxiosInstance}>(
+  'user/register',
+  async (dto, {extra: api}) => {
+    const { data } = await api.post<UserData>(APIRoute.Register, dto);
+    return data
+  }
+);
+
 export {
   checkAuthAction,
   fetchProductByIdAction,
@@ -87,5 +94,6 @@ export {
   createProductByIdAction,
   fetchProductsAction,
   loginAction,
-  logoutAction
+  logoutAction,
+  registerAction
 };

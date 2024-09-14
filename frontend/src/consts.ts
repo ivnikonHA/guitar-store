@@ -36,6 +36,7 @@ export const enum APIRoute {
   Product = '/products/:id',
   Login = '/users/login',
   Logout = '/users/logout',
+  Register = 'users/register'
 }
 
 export const SortType = {

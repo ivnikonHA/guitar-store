@@ -1,13 +1,13 @@
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { FormEvent, useState } from 'react';
-//import { toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 import { AppRoute } from '../../consts';
-import { AuthData } from '../../types/auth-data';
 import { loginAction } from '../../store/api-actions';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { ChangeHandler } from '../../types/state';
+import { LoginUserDto } from '../../types/user-data';
 
 function Login(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -16,6 +16,8 @@ function Login(): JSX.Element {
     email: '',
     password: ''
   });
+  const [showPassword, setShowPassword] = useState(false);
+
   const handleFieldChange: ChangeHandler = (evt) => {
     const { name, value } = evt.currentTarget;
     setFormData({ ...formData, [name]: value });
@@ -23,13 +25,23 @@ function Login(): JSX.Element {
 
   const handleSubmitForm = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    const authData: AuthData = {
-      login: formData.email,
+    const dto: LoginUserDto = {
+      email: formData.email,
       password: formData.password
     };
 
-    dispatch(loginAction(authData))
+    toast.promise(
+      dispatch(loginAction(dto)).unwrap(),
+      {
+        pending: 'Logging in',
+        error: 'Error to login'
+      }
+    );
   };
+
+  const handleShowPasswordButton = () => {
+    setShowPassword((showPassword) => !showPassword);
+  }
 
   return (
     <>
@@ -61,7 +73,7 @@ function Login(): JSX.Element {
                 <label htmlFor="passwordLogin">Введите пароль</label>
                 <span>
                   <input
-                    type="password"
+                    type={showPassword? "text": "password"}
                     placeholder="• • • • • • • • • • • •"
                     id="passwordLogin"
                     name="password"
@@ -70,7 +82,11 @@ function Login(): JSX.Element {
                     onChange={handleFieldChange}
                     value={formData.password}
                   />
-                  <button className="input-login__button-eye" type="button">
+                  <button
+                    className="input-login__button-eye"
+                    type="button"
+                    onClick={handleShowPasswordButton}
+                  >
                     <svg width="14" height="8" aria-hidden="true">
                       <use xlinkHref="#icon-eye"></use>
                     </svg>
