@@ -94,7 +94,6 @@ export class ProductController extends BaseController {
 
   public async update({ body, params}: Request<ParamProductId, unknown, UpdateProductDto>, res: Response): Promise<void> {
     const result = await this.productService.updateById(params.id, body);
-    console.log(body)
     this.logger.info(`Updated product with id ${params.id}, name ${body.name}`);
     this.ok(res, fillDTO(ProductRdo, result));
   }

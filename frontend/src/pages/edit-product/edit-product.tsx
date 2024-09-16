@@ -7,10 +7,11 @@ import { editProductByIdAction} from '../../store/api-actions';
 import { getProducts } from '../../store/products/products-selectors';
 import Error404 from '../error-404/error-404';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { AppRoute, BACKEND_URL, UPLOAD_PATH } from '../../consts';
+import { AppRoute } from '../../consts';
 import dayjs from 'dayjs';
 import { GuitarType, ProductType, StringsCountType, UpdateProductDto } from '../../types/product';
 import { ChangeHandler } from '../../types/state';
+import { getImage } from '../../utils';
 
 function EditProduct(): JSX.Element {
   const { id } = useParams();
@@ -52,7 +53,6 @@ function EditProduct(): JSX.Element {
       stringsCount: formData.stringsCount,
       price: formData.price
     };
-    console.log(productData)
     dispatch(editProductByIdAction(productData))
   };
 
@@ -81,7 +81,7 @@ function EditProduct(): JSX.Element {
               <div className="edit-item__form-left">
                 <div className="edit-item-image edit-item__form-image">
                   <div className="edit-item-image__image-wrap">
-                    <img className="edit-item-image__image" src={`${BACKEND_URL}${UPLOAD_PATH}${formData.photo}`} srcSet="img/content/add-item-1@2x.png 2x" width="133" height="332" alt="СURT Z30 Plus" />
+                    <img className="edit-item-image__image" src={getImage(formData.photo)} srcSet="img/content/add-item-1@2x.png 2x" width="133" height="332" alt="СURT Z30 Plus" />
                   </div>
                   <div className="edit-item-image__btn-wrap">
                     <button className="button button--small button--black-border edit-item-image__btn">Заменить

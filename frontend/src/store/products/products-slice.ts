@@ -107,7 +107,6 @@ const productsSlice = createSlice({
       .addCase(createProductByIdAction.rejected, (state, action) => {
         toast.error(action.error.message);
         state.status = RequestStatus.Failed;
-        console.log('error', action.error.message)
       })
   },
 });

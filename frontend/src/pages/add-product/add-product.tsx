@@ -7,17 +7,26 @@ import { CreateProductDto, StringsCountType } from '../../types/product';
 import { ChangeHandler } from '../../types/state';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
+import { getImage } from '../../utils';
 
 function AddProduct(): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [photo, setPhoto] = useState<File | undefined>();
+
+  const handlePhotoUpload = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    if (!evt.target.files) {
+      return;
+    }
+    setPhoto(evt.target.files[0]);
+  };
 
   const [formData, setFormData] = useState({
     title: '',
     sku: '',
     description: '',
     itemType: GuitarType.Acoustic,
-    photo: 'default-photo.jpg',
+    photo: getImage('no-image.png'),
     price: 0,
     publishDate: dayjs(),
     stringsCount: StringsCountType.Four,
@@ -70,11 +79,35 @@ function AddProduct(): JSX.Element {
               <div className="add-item__form-left">
                 <div className="edit-item-image add-item__form-image">
                   <div className="edit-item-image__image-wrap">
+                    <img
+                      className="edit-item-image__image"
+                      src={photo ? URL.createObjectURL(photo): getImage('no-image.png')}
+                      width="133"
+                      height="332"
+                      alt={formData.title ?? ''}
+                    />
                   </div>
                   <div className="edit-item-image__btn-wrap">
-                    <button className="button button--small button--black-border edit-item-image__btn">Добавить
+                    <label
+                      className="button button--small button--black-border edit-item-image__btn"
+                    >
+                      Загрузить
+                      <input
+                        className="visually-hidden"
+                        type="file"
+                        name="avatar"
+                        id="avatar"
+                        accept="image/png, image/jpeg"
+                        onChange={handlePhotoUpload}
+                      />
+                    </label>
+                    <button
+                    type='reset'
+                      className="button button--small button--black-border edit-item-image__btn"
+                      onClick={() => setPhoto(undefined)}
+                    >
+                      Удалить
                     </button>
-                    <button className="button button--small button--black-border edit-item-image__btn">Удалить</button>
                   </div>
                 </div>
                 <div className="input-radio edit-item__form-radio"><span>Тип товара</span>
