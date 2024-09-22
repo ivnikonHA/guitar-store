@@ -6,9 +6,10 @@ import MainNavigation from '../main-navigation/main-navigation';
 function Header(): JSX.Element {
   const isAuthorized = useAppSelector(getIsAuthorized);
   const userData = useAppSelector(getUserData);
+  console.log(isAuthorized, userData)
 
   return (
-    <header className="header" id="header">
+    <header className={`${isAuthorized && 'header--admin'} header`} id="header">
       <div className="container">
         <div className="header__wrapper">
           <Logo />

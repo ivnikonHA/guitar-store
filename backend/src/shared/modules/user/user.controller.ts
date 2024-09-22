@@ -70,6 +70,7 @@ export class UserController extends BaseController {
     const user = await this.authService.verify(newUser);
     const token = await this.authService.authenticate(user);
     const responseData = fillDTO(LoggedUserRdo, {
+      name: user.name,
       email: user.email,
       token
     });
