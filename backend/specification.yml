@@ -15,7 +15,14 @@ paths:
       description: Получить список товаров
       parameters:
         - in: query
-          name: count
+          name: page
+          description: Page number
+          required: false
+          schema:
+            type: number
+        - in: query
+          name: limit
+          description: Number of products per page
           required: false
           schema:
             type: number

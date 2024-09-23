@@ -6,6 +6,7 @@ import { ProductEntity } from './product.entity.js';
 import { CreateProductDto } from './dto/create-product.dto.js';
 import { UpdateProductDto } from './dto/update-product.dto.js';
 import { SortType } from './product.consts.js';
+import QueryString from 'qs';
 
 @injectable()
 export class ProductService {
@@ -14,9 +15,13 @@ export class ProductService {
     @inject(Component.ProductModel) private readonly productModel: types.ModelType<ProductEntity>
   ) {}
 
-  public async find(): Promise<DocumentType<ProductEntity>[]> {
+  public async find(query: QueryString.ParsedQs): Promise<DocumentType<ProductEntity>[]> {
+    const limit = query.limit ?? 10;
+    const skip = query?.page && query?.limit ? (+query.page - 1) * +limit : 0;
     return this.productModel
       .find()
+      .skip(skip)
+      .limit(+limit)
       .sort({createdAt: SortType.Down})
       .exec();
   }

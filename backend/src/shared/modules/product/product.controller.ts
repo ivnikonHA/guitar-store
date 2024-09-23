@@ -74,8 +74,9 @@ export class ProductController extends BaseController {
     });
   }
 
-  public async index(_req: Request, res: Response): Promise<void> {
-    const products = await this.productService.find();
+  public async index(req: Request, res: Response): Promise<void> {
+    const query = req.query;
+    const products = await this.productService.find(query);
 
     this.ok(res, fillDTO(ProductRdo, products));
   }
