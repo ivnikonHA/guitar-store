@@ -12,6 +12,8 @@ import { DocumentExistsMiddleware } from '../../libs/rest/middleware/document-ex
 import { UpdateProductDto } from './dto/update-product.dto.js';
 import { Config } from '../../libs/config/config.interface.js';
 import { RestSchema } from '../../libs/config/rest.schema.js';
+import { ProductsWithPaginationRdo } from './rdo/products-with-pagination.rdo.js';
+import { Query } from '../../types/query.type.js';
 
 @injectable()
 export class ProductController extends BaseController {
@@ -76,9 +78,14 @@ export class ProductController extends BaseController {
 
   public async index(req: Request, res: Response): Promise<void> {
     const query = req.query;
-    const products = await this.productService.find(query);
+    const queryParams: Query = {
+      page: typeof(query.page) === 'string' ? query.page : '',
+      limit: typeof(query.limit) === 'string' ? query.limit : ''
+    };
+    const result = await this.productService.find(queryParams);
+    console.log(fillDTO(ProductsWithPaginationRdo, result))
 
-    this.ok(res, fillDTO(ProductRdo, products));
+    this.ok(res, fillDTO(ProductsWithPaginationRdo, result));
   }
 
   public async create({ body }: Request<unknown, unknown, CreateProductDto>, res: Response): Promise<void> {
